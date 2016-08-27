@@ -1,8 +1,8 @@
-public class Node{
+public class SingleNode{
 	
 	int data;
-	Node next;
-	public Node(int data){
+	SingleNode next;
+	public SingleNode(int data){
 		this.data = data;
 		this.next = null;
 	}

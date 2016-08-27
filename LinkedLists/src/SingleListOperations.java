@@ -1,15 +1,15 @@
 
-public class ListOperations {
+public class SingleListOperations{
 	
-	Node head;
+	SingleNode head;
 	
-	public ListOperations(Node _head){
+	public SingleListOperations(SingleNode _head){
 		this.head = _head;
 	}
 	
 	public void insertNode(int data){
-		Node newNode = new Node(data);
-		Node temp=head;
+		SingleNode newNode = new SingleNode(data);
+		SingleNode temp=head;
 		
 		while(temp.next != null){
 			temp = temp.next;
@@ -19,7 +19,7 @@ public class ListOperations {
 	}
 	
 	public void displayList(){
-		Node temp=head;
+		SingleNode temp=head;
 		
 		while(temp!=null){
 			temp.display();
@@ -34,8 +34,8 @@ public class ListOperations {
 	
 	public void removeNode(int data){
 		
-		Node temp=head;
-		Node prev=head;
+		SingleNode temp=head;
+		SingleNode prev=head;
 		
 		while(temp.data != data){
 			prev = temp;

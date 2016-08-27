@@ -3,9 +3,9 @@ public class LinkedLists {
 
 	
 	public static void main(String[] args) {
-		Node head =new Node(0);
+		SingleNode head =new SingleNode(0);
 		
-		ListOperations List = new ListOperations(head);
+		SingleListOperations List = new SingleListOperations(head);
 		List.insertNode(1);
 		List.insertNode(2);
 		List.insertNode(3);
