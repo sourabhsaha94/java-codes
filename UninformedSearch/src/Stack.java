@@ -6,7 +6,7 @@ public class Stack {
 	
 	String[] elements;
 	
-	Stack(int size){
+	Stack(int size){	//stack initialization by making all vacant spots as null
 		this.size=size;
 		this.top =-1;
 		
@@ -16,7 +16,7 @@ public class Stack {
 		}
 	}
 	
-	public boolean isEmpty(){
+	public boolean isEmpty(){	//check if stack is empty
 		if(top==-1)
 			return true;
 		else
@@ -24,7 +24,7 @@ public class Stack {
 		
 	}	
 	
-	public String pop(){
+	public String pop(){	//remove top of stack
 		
 		if(!isEmpty()){
 			return elements[top--];
@@ -34,7 +34,7 @@ public class Stack {
 		
 	}
 	
-	public boolean isFull(){
+	public boolean isFull(){	//check if stack is full
 		
 		if(top==size-1)
 			return true;
@@ -43,14 +43,14 @@ public class Stack {
 		
 	}
 	
-	public void push(String data){
+	public void push(String data){	//add data to top of stack
 		if(!isFull()){
 			top++;
 			elements[top] = data;
 		}
 	}
 	
-	public void displayStack(){
+	public void displayStack(){	//display stack contents in LIFO order
 		
 		if(!isEmpty())
 			for(int i=top;i>=0;i--){
