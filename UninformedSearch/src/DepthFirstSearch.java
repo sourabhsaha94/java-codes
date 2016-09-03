@@ -1,7 +1,6 @@
 //pseudo-code understood from en.wikipedia.org/wiki/Depth-first_search
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,7 +64,9 @@ public class DepthFirstSearch {
 		
 		Stack stack = new Stack(g.Vlist.size());	//initialize the stack of size equals number of vertices
 		String label="";
-		String goal="bucharest",start_node="lugoj";
+		
+		String goal="bucharest",start_node="lugoj";	//enter the goal and start node
+		
 		String[] visited = new String[g.Vlist.size()];	//store all the nodes already taken into consideration
 		ArrayList<Vertex> succList = new ArrayList<Vertex>();	//store all the successive vertices of a given vertex
 		
@@ -94,15 +95,21 @@ public class DepthFirstSearch {
 						if(!checkIfVisited(visited,v.label)){
 							visited[counter++]=v.label;
 							stack.push(v.label);
+							v.Path.addAll(g.getVertexFromLabel(label).Path);
 						}
 							
 					}
 			}
 		}
-		for(int i=0;i<visited.length;i++){
-			if(visited[i]!=null)
-				System.out.println(visited[i]);
+		
+		//print in a formatted manner; the entire route
+		
+		System.out.println("Route take from "+start_node+" to "+goal+":");
+		
+		for(int i=g.getVertexFromLabel(goal).Path.size()-1;i>0;i--){
+				System.out.print(g.getVertexFromLabel(goal).Path.get(i).label+" > ");
 		}
+		System.out.print(g.getVertexFromLabel(goal).Path.get(0).label);
 		
 	}
 

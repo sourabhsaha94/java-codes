@@ -63,7 +63,7 @@ public class BreadthFirstSearch {
 		
 		
 		String current = "";
-		String goal="bucharest",start_node="lugoj";
+		String goal="lugoj",start_node="bucharest";
 		String[] visited = new String[Vlist.size()];
 		int i,counter=0;
 		
@@ -91,15 +91,20 @@ public class BreadthFirstSearch {
 					{
 						q.enqueue(succ.get(i).label);
 						visited[counter++] = succ.get(i).label;
+						succ.get(i).Path.addAll(g.getVertexFromLabel(current).Path);
 					}
 				}
 			}
 		}
 		
-		for(i=0;i<visited.length;i++){
-			if(visited[i]!=null)
-				System.out.println(visited[i]);
+		//print in a formatted manner; the entire route
+		
+		System.out.println("Route take from "+start_node+" to "+goal+":");
+				
+		for(i=g.getVertexFromLabel(goal).Path.size()-1;i>0;i--){
+				System.out.print(g.getVertexFromLabel(goal).Path.get(i).label+" > ");
 		}
+		System.out.print(g.getVertexFromLabel(goal).Path.get(0).label);
 	}
 
 	private static boolean checkIfVisited(String[] visited, String label) {

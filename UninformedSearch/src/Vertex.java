@@ -1,16 +1,16 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Vertex {
 	String label;	//the data of the vertex is stored as label
 	ArrayList <Edge> Elist;	//this stores number of outgoing and incoming edges
-	LinkedList<Vertex> Path; //this stores the vertices in previous iterations
+	ArrayList<Vertex> Path; //this stores the vertices in previous iterations
 	
 	
 	public Vertex(String l){	//initialize vertex with own label and list of edges
 		this.label = l;
 		this.Elist = new ArrayList<Edge>();		
-		this.Path = new LinkedList<Vertex>();
+		this.Path = new ArrayList<Vertex>();
+		this.Path.add(this);	//add the current node to its own path
 	}
 	
 	public void addEdge(Edge e){	//add an edge to the list of the current vertex
