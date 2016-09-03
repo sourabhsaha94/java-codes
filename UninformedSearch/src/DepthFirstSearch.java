@@ -1,47 +1,84 @@
 //pseudo-code understood from en.wikipedia.org/wiki/Depth-first_search
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DepthFirstSearch {
 
 
-	public static void main(String[] args) {
-		ArrayList<Vertex> Vlist = new ArrayList<Vertex>();	//create and add all vertices
-		Vlist.add(new Vertex("a"));
-		Vlist.add(new Vertex("b"));
-		Vlist.add(new Vertex("c"));
-		Vlist.add(new Vertex("d"));
-		Vlist.add(new Vertex("e"));
-		Vlist.add(new Vertex("f"));
-		Vlist.add(new Vertex("g"));
+	public static void main(String[] args) throws IOException {
+		ArrayList<Vertex> Vlist = new ArrayList<Vertex>();	//create new list of vertex
+		ArrayList<Vertex> Temp = new ArrayList<Vertex>();
 		
-		Graph g = new Graph(Vlist);	//initialize graph with vertex list
-		g.addEdge("a", "b");	//add the edges to the graph
-		g.addEdge("a", "c");
-		g.addEdge("b", "d");
-		g.addEdge("b", "e");
-		g.addEdge("c", "f");
-		g.addEdge("c", "g");
+		FileReader f = new FileReader("cities.txt");	//new reader for getting city names
+		BufferedReader bufferedReader1 = new BufferedReader(f);
+		
+		
+		String line;
+		String[] splitString;
+		boolean flag=true;	//to mark duplicate values
+		
+		while((line = bufferedReader1.readLine())!= null){	//to fill temp array with all city names including duplicates
+			splitString = line.split(",");
+			Temp.add(new Vertex(splitString[0]));
+			Temp.add(new Vertex(splitString[1]));
+		}
+		
+		bufferedReader1.close();
+		
+		Vlist.add(Temp.get(0));
+		
+		for(Vertex v : Temp){	//to remove duplicate entries from temp into vlist
+			flag=true;
+			for(Vertex v1:Vlist){
+				if(v.label.equalsIgnoreCase(v1.label)){
+					flag=true;
+					break;
+				}else
+				{
+					flag=false;
+				}
+			}
+			if(!flag){
+				Vlist.add(v);
+			}
+		}
+		
+		
+		Graph g = new Graph(Vlist);
+		
+		FileReader f1 = new FileReader("cities.txt");	//new reader required for getting edges
+		
+		BufferedReader bufferedReader2 = new BufferedReader(f1);
+		
+		while((line = bufferedReader2.readLine())!= null){	//to fill temp array with all city names including duplicates
+			splitString = line.split(",");
+			g.addEdge(splitString[0], splitString[1]);
+		}
+		
+		bufferedReader2.close();
+		
+		
 		
 		Stack stack = new Stack(g.Vlist.size());	//initialize the stack of size equals number of vertices
-		stack.push("a");	//push first node on stack
-		
-		stack.displayStack();
-		
 		String label="";
-		String goal="e";
+		String goal="bucharest",start_node="lugoj";
 		String[] visited = new String[g.Vlist.size()];	//store all the nodes already taken into consideration
 		ArrayList<Vertex> succList = new ArrayList<Vertex>();	//store all the successive vertices of a given vertex
 		
 		int counter = 0 ;	//to iterate through the visited array
+				
+		stack.push(start_node);	//push first node on stack
 		
-		visited[counter++]="a";
+		
+		visited[counter++]=start_node;
 		
 		while(!stack.isEmpty()){	//main loop of the DFS algorithm
 					
 			label = stack.pop();
-			
-			stack.displayStack();
 			
 			if(label.equalsIgnoreCase(goal))
 			{
@@ -52,9 +89,7 @@ public class DepthFirstSearch {
 			{
 				
 				succList = g.getVertexFromLabel(label).getAdjacentVertexList();
-				if(!succList.isEmpty())
-				{
-					for(Vertex v:succList)
+				for(Vertex v:succList)
 					{
 						if(!checkIfVisited(visited,v.label)){
 							visited[counter++]=v.label;
@@ -62,12 +97,11 @@ public class DepthFirstSearch {
 						}
 							
 					}
-					stack.displayStack();
-				}
 			}
 		}
 		for(int i=0;i<visited.length;i++){
-			System.out.println(visited[i]);
+			if(visited[i]!=null)
+				System.out.println(visited[i]);
 		}
 		
 	}
