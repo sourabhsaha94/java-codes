@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class BreadthFirstSearch {
 
@@ -86,6 +88,12 @@ public class BreadthFirstSearch {
 			}
 			else{
 				succ = g.getVertexFromLabel(current).getAdjacentVertexList();
+				
+				Collections.sort(succ,new Comparator<Vertex>(){
+					@Override public int compare(Vertex v1,Vertex v2){
+						return v1.label.compareTo(v2.label);
+					}
+				});
 				for(i=0;i<succ.size();i++){
 					if(!checkIfVisited(visited,succ.get(i).label))
 					{
@@ -117,4 +125,5 @@ public class BreadthFirstSearch {
 		return false;
 	}
 
+	
 }

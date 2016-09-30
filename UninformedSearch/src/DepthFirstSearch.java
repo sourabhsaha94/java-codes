@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class DepthFirstSearch {
 
@@ -90,6 +92,12 @@ public class DepthFirstSearch {
 			{
 				
 				succList = g.getVertexFromLabel(label).getAdjacentVertexList();
+				
+				Collections.sort(succList,new Comparator<Vertex>(){
+					@Override public int compare(Vertex v1,Vertex v2){
+						return v1.label.compareTo(v2.label);
+					}
+				});
 				for(Vertex v:succList)
 					{
 						if(!checkIfVisited(visited,v.label)){
