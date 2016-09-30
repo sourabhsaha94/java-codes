@@ -16,6 +16,12 @@ public class Graph {
 	
 	public void addEdge(Vertex one, Vertex two,int weight){	//insert a particular edge into the edge list with vertex references
 		Edge e = new Edge(one,two,weight);
+		for(Edge x:Elist){
+			if(e.one.label.equalsIgnoreCase(x.one.label)&&e.two.label.equalsIgnoreCase(x.two.label))
+				return;
+			else if(e.one.label.equalsIgnoreCase(x.two.label)&&e.two.label.equalsIgnoreCase(x.one.label))
+				return;
+		}
 		this.Elist.add(e);
 		one.addEdge(e);
 		two.addEdge(e);
