@@ -14,15 +14,15 @@ public class Graph {
 		}
 	}
 	
-	public void addEdge(Vertex one, Vertex two){	//insert a particular edge into the edge list with vertex references
-		Edge e = new Edge(one,two);
+	public void addEdge(Vertex one, Vertex two,int weight){	//insert a particular edge into the edge list with vertex references
+		Edge e = new Edge(one,two,weight);
 		this.Elist.add(e);
 		one.addEdge(e);
 		two.addEdge(e);
 	}
 	
-	public void addEdge(String s1, String s2){	//insert call to the above method by passing only the labels as input
-		addEdge(getVertexFromLabel(s1),getVertexFromLabel(s2));
+	public void addEdge(String s1, String s2, int weight){	//insert call to the above method by passing only the labels as input
+		addEdge(getVertexFromLabel(s1),getVertexFromLabel(s2),weight);
 	}
 	
 	public Vertex getVertexFromLabel(String label){	//get vertex from the list of vertices matching input label
