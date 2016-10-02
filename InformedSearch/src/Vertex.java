@@ -1,16 +1,22 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Vertex {
 	String label;	//the data of the vertex is stored as label
 	ArrayList <Edge> Elist;	//this stores number of outgoing and incoming edges
-	ArrayList<Vertex> Path; //this stores the vertices in previous iterations
-	
+	LinkedList<Vertex> Path;
+	Double lat,lon;
+	Double h_cost;
+	Double priority;
+	int path_cost;
 	
 	public Vertex(String l){	//initialize vertex with own label and list of edges
 		this.label = l;
-		this.Elist = new ArrayList<Edge>();		
-		this.Path = new ArrayList<Vertex>();
-		this.Path.add(this);	//add the current node to its own path
+		this.Elist = new ArrayList<Edge>();
+		this.Path = new LinkedList<Vertex>();
+		this.Path.add(this);
+		this.path_cost=0;
+		this.priority=(double) 0;
 	}
 	
 	public void addEdge(Edge e){	//add an edge to the list of the current vertex
@@ -43,4 +49,30 @@ public class Vertex {
 		return v;
 	}
 	
+	public Edge getEdge(Vertex v){
+		
+		for(Edge e:this.Elist){
+			if(e.getAdjacentVertex(this).label.equalsIgnoreCase(v.label)){
+				return e;
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	public int getTotCost(){
+		
+		int tot_cost=0;
+		return tot_cost;
+	}
+	
+	/*public int getPathCost(Vertex v){
+		
+		for(Vertex v:Path){
+			path_cost=
+		}
+		
+		return 0;	
+	}*/
 }

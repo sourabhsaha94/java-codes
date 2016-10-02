@@ -58,10 +58,39 @@ public class SearchUSA {
 		
 		bufferedReader2.close();
 		
-		for(Vertex v:Vlist){
-			System.out.println(v.label+" "+v.Elist.size());
+		FileReader f2 = new FileReader("cities2.txt");	//new reader required for getting edges
+		
+		BufferedReader bufferedReader3 = new BufferedReader(f2);
+		
+		while((line = bufferedReader3.readLine())!= null){	//to fill temp array with all city names including duplicates
+			splitString = line.split(",");
+			for(Vertex v:g.Vlist){
+				if(v.label.equalsIgnoreCase(splitString[0])){
+					v.lat = Double.parseDouble(splitString[1]);
+					v.lon = Double.parseDouble(splitString[2]);
+				}
+			}
 		}
 		
+		bufferedReader3.close();
+		
+		/*for(Vertex v:Vlist){
+			System.out.println(v.label+" "+v.Elist.size());
+		}*/
+		
+		
+		String start="vancouver";
+		String goal="losAngeles";
+		
+		Astar astar = new Astar(g,start,goal);
+		astar.executeAlgo();
+		
+		start="losAngeles";
+		goal="vancouver";
+		
+		Astar astar1 = new Astar(g,start,goal);
+		astar1.executeAlgo();
+		//System.out.println(g.getVertexFromLabel("seattle").Elist.get(1).one.label);
 	}
 	
 	/*static void createFile() throws Exception{
