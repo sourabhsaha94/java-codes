@@ -10,6 +10,7 @@ public class Astar {
 	String s,g;
 	
 	PriorityQueue<LinkedList<Vertex>> pq;
+	
 	ArrayList<String> Visited,Expanded;
 
 	Astar(Graph gh, String start, String goal){
@@ -26,62 +27,38 @@ public class Astar {
 		
 		ArrayList<Vertex> succList = new ArrayList<Vertex>();
 		
-		calculateHcost();
-		
-		pq.add(gh.getVertexFromLabel(this.s).Path);
-		Expanded.add(this.s);
-		
-		
+		pq.add(gh.getVertexFromLabel(s).Path);
+		System.out.println(1);
 		while(!pq.isEmpty()){
+		
+			LinkedList<Vertex> currentPath = pq.poll();
 			
-			LinkedList<Vertex> temp=pq.poll();
+			Vertex parent = currentPath.getFirst();
 			
-			Vertex curr = temp.peek();
-			System.out.println(curr.label+": "+curr.priority);
-			Visited.add(curr.label);
-			if(curr.label.equalsIgnoreCase(g))
-			{
-				System.out.println("goal reached");
-				for(String s:Visited){
-					System.out.print(s+" ");
-				}
+			if(parent.label.equalsIgnoreCase(g)){
+				System.out.println("Goal match");
 				break;
 			}
-			
 			else{
-				System.out.println("visiting "+curr.label);
 				
-				succList = curr.getAdjacentVertexList();
+				succList = parent.getAdjacentVertexList();
 				
-				for(Vertex v:succList){
+				for(Vertex child:succList){
 					
-					//check if node has been visited by a path
-					if(!itContains(v.label,Visited)){
-						
-						
-						
-						//check if node has been previously expanded by others
-						if(!itContains(v.label,Expanded)){
-							
-							Expanded.add(v.label);
-							
-						}
-							
-						v.priority = (double)v.path_cost+v.h_cost;
-						v.Path.addAll(curr.Path);
-						System.out.println("expanding "+v.label+" :"+v.path_cost);
-						
-						pq.add(v.Path);
-					}
+					child.Path.addAll(parent.Path);
+					pq.add(child.Path);
 				}
-				
-				for(String s:Expanded){
-					System.out.print(s+" ");
-				}
-			
-				System.out.println();
 			}
+			break;
 		}
+		
+		for(LinkedList<Vertex> l:pq){
+			for(Vertex v:l){
+				System.out.print(v.label+" ");
+			}
+			System.out.println();
+		}
+		
 	}
 	
 	boolean itContains(String s, ArrayList<String> list){

@@ -5,6 +5,7 @@ public class Vertex {
 	String label;	//the data of the vertex is stored as label
 	ArrayList <Edge> Elist;	//this stores number of outgoing and incoming edges
 	LinkedList<Vertex> Path;
+	
 	int x,y;
 	Double h_cost;
 	Double priority;
@@ -42,8 +43,9 @@ public class Vertex {
 		ArrayList<Vertex> v = new ArrayList<Vertex>();
 		
 		for(Edge e:Elist){
-			v.add(e.getAdjacentVertex(this));
-			e.getAdjacentVertex(this).path_cost+=e.weight;
+			Vertex newVertex = new Vertex(e.getAdjacentVertex(this).label);
+			newVertex.path_cost = e.weight;
+			v.add(newVertex);
 		}
 		
 		return v;
