@@ -10,7 +10,7 @@ public class Astar {
 	String s,g;
 	
 	PriorityQueue<LinkedList<Vertex>> pq;
-	ArrayList<String> Visited,Expanded;
+	ArrayList<String> Visited,Expanded;	//expanded is open list, visited is closed list
 
 	Astar(Graph gh, String start, String goal){
 		this.gh = gh;
@@ -26,51 +26,58 @@ public class Astar {
 		
 		ArrayList<Vertex> succList = new ArrayList<Vertex>();
 		
+		int loop_counter =0;
+		
 		calculateHcost();
 		
-		pq.add(gh.getVertexFromLabel(this.s).Path);
-		Expanded.add(this.s);
+		pq.add(gh.getVertexFromLabel(this.s).Path);	//add start state path to priority queue
+		Expanded.add(this.s);	//add start state to list of expanded nodes
 		
 		
 		while(!pq.isEmpty()){
 			
-			LinkedList<Vertex> temp=pq.poll();
 			
-			Vertex curr = temp.peek();
+			LinkedList<Vertex> temp=pq.poll();	//get top path with minimum cost from queue
+			
+			Vertex curr = temp.peek();	//get path head
+			
 			System.out.println(curr.label+": "+curr.priority);
-			Visited.add(curr.label);
-			if(curr.label.equalsIgnoreCase(g))
+			
+			Visited.add(curr.label);	//add path head to visited array
+			
+			if(curr.label.equalsIgnoreCase(g))	//goal check
 			{
 				System.out.println("goal reached");
-				for(String s:Visited){
-					System.out.print(s+" ");
-				}
+				printPath(gh.getVertexFromLabel(g));
 				break;
 			}
 			
 			else{
+				
 				System.out.println("visiting "+curr.label);
 				
-				succList = curr.getAdjacentVertexList();
-				
+				succList = curr.getAdjacentVertexList();	//generate successor list for path head
+				System.out.println("Size of succList: "+succList.size());
 				for(Vertex v:succList){
+					
+					
 					
 					//check if node has been visited by a path
 					if(!itContains(v.label,Visited)){
 						
-						
-						
+						v.Path.add(curr);
+						v.path_cost = curr.path_cost+v.getEdge(curr).weight;
+						System.out.println("expanding "+v.label+" :"+v.path_cost);
 						//check if node has been previously expanded by others
 						if(!itContains(v.label,Expanded)){
+							
 							
 							Expanded.add(v.label);
 							
 						}
 							
 						v.priority = (double)v.path_cost+v.h_cost;
-						v.Path.addAll(curr.Path);
-						System.out.println("expanding "+v.label+" :"+v.path_cost);
-						
+											
 						pq.add(v.Path);
 					}
 				}
@@ -81,6 +88,11 @@ public class Astar {
 			
 				System.out.println();
 			}
+			
+			//if(loop_counter==3)
+				//break;
+			
+			loop_counter++;
 		}
 	}
 	
@@ -90,6 +102,12 @@ public class Astar {
 			return true;
 		
 		return false;
+	}
+	
+	void printPath(Vertex v){
+		System.out.print(v.label+" ");
+		if(!v.label.equalsIgnoreCase(s))
+			printPath(v.Path.removeLast());
 	}
 	
 	void calculateHcost(){

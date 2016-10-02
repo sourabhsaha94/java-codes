@@ -16,6 +16,7 @@ public class Vertex {
 		this.Path = new LinkedList<Vertex>();
 		this.Path.add(this);
 		this.path_cost=0;
+		this.priority=(double) 0;
 	}
 	
 	public void addEdge(Edge e){	//add an edge to the list of the current vertex
@@ -43,7 +44,6 @@ public class Vertex {
 		
 		for(Edge e:Elist){
 			v.add(e.getAdjacentVertex(this));
-			e.getAdjacentVertex(this).path_cost+=e.weight;
 		}
 		
 		return v;

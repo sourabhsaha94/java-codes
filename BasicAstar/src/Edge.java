@@ -15,5 +15,4 @@ public class Edge {
 		return (v.equals(one))?two:one;
 	}
 	
-	
 }
