@@ -60,19 +60,4 @@ public class Vertex {
 		return null;
 	}
 	
-	
-	public int getTotCost(){
-		
-		int tot_cost=0;
-		return tot_cost;
-	}
-	
-	/*public int getPathCost(Vertex v){
-		
-		for(Vertex v:Path){
-			path_cost=
-		}
-		
-		return 0;	
-	}*/
 }

@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-public class Astar {
+public class GreedySearch {
 	
 	Graph gh;
 	
@@ -15,7 +15,7 @@ public class Astar {
 	PriorityQueue<LinkedList<Vertex>> pq;
 	ArrayList<String> Visited,Expanded;	//expanded is open list, visited is closed list
 
-	Astar(Graph gh, String start, String goal){
+	GreedySearch(Graph gh, String start, String goal){
 		this.gh = gh;
 		this.s=start;
 		this.g=goal;
@@ -29,8 +29,6 @@ public class Astar {
 		
 		ArrayList<Vertex> succList = new ArrayList<Vertex>();
 		
-		boolean minFlag;
-		
 		calculateHcost();
 		
 		pq.add(gh.getVertexFromLabel(this.s).Path);	//add start state path to priority queue
@@ -39,8 +37,6 @@ public class Astar {
 		
 		
 		while(!pq.isEmpty()){
-			
-			minFlag=true;
 			
 			LinkedList<Vertex> temp=pq.poll();	//get top path with minimum cost from queue
 			
@@ -69,18 +65,7 @@ public class Astar {
 					//check if node has been visited by a path
 					if(!itContains(v.label,Visited)){
 						
-						//check if there exists already a path which has lower cost
-						for (LinkedList<Vertex> l : pq) {
-							if (v.label.equalsIgnoreCase(l.peek().label)
-									&& curr.path_cost + v.getEdge(curr).weight > l.peek().path_cost)
-								minFlag = false;
-						}
-
-						if (minFlag) {
-							
 							v.Path.add(curr);
-
-							v.path_cost = curr.path_cost + v.getEdge(curr).weight;
 
 							// check if node has been previously expanded by
 							// others
@@ -89,11 +74,9 @@ public class Astar {
 								Expanded.add(v.label);
 							}
 
-							v.priority = (double) v.path_cost+v.h_cost;
+							v.priority = v.h_cost;
 
 							pq.add(v.Path);
-						}
-
 					}
 				}
 				

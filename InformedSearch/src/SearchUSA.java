@@ -7,6 +7,8 @@ public class SearchUSA {
 
 	public static void main(String[] args) throws Exception{
 		
+		
+		
 		ArrayList<Vertex> Vlist = new ArrayList<Vertex>();	//create new list of vertex
 		ArrayList<Vertex> Temp = new ArrayList<Vertex>();
 		
@@ -74,23 +76,25 @@ public class SearchUSA {
 		
 		bufferedReader3.close();
 		
-		/*for(Vertex v:Vlist){
-			System.out.println(v.label+" "+v.Elist.size());
-		}*/
-		
-		
 		String start="vancouver";
 		String goal="losAngeles";
 		
-		Astar astar = new Astar(g,start,goal);
-		astar.executeAlgo();
+		switch(args[0]){
+		case "astar":
+			Astar astar = new Astar(g,start,goal);
+			astar.executeAlgo();
+			break;
+		case "greedy":
+			GreedySearch gs = new GreedySearch(g,start,goal);
+			gs.executeAlgo();
+			break;
+		case "uniform":
+			UniformCost ucost = new UniformCost(g,start,goal);
+			ucost.executeAlgo();
+			break;
+			default:System.out.println("Usage: java SearchUSA <searchtype> [astar|greedy|uniform] <srccityname> <destcityname>");
+		}
 		
-		start="losAngeles";
-		goal="vancouver";
-		
-		Astar astar1 = new Astar(g,start,goal);
-		astar1.executeAlgo();
-		//System.out.println(g.getVertexFromLabel("seattle").Elist.get(1).one.label);
 	}
 	
 	/*static void createFile() throws Exception{
