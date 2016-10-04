@@ -62,20 +62,25 @@ public class Astar {
 				
 				succList = curr.getAdjacentVertexList();	//generate successor list for path head
 			
+				System.out.println("");
 				for(Vertex v:succList){
 					
+					minFlag=true;
 					
+					System.out.println(curr.label+" expanding "+v.label+" :"+v.h_cost);
+					
+					for(LinkedList<Vertex> l:pq){
+						if(v.label.equalsIgnoreCase(l.peek().label)){
+							if((curr.path_cost + v.getEdge(curr).weight+v.h_cost)>l.peek().priority)
+								minFlag=false;	
+						}
+							
+					}
 					
 					//check if node has been visited by a path
 					if(!itContains(v.label,Visited)){
 						
-						//check if there exists already a path which has lower cost
-						for (LinkedList<Vertex> l : pq) {
-							if (v.label.equalsIgnoreCase(l.peek().label)
-									&& curr.path_cost + v.getEdge(curr).weight > l.peek().path_cost)
-								minFlag = false;
-						}
-
+										
 						if (minFlag) {
 							
 							v.Path.add(curr);
@@ -92,9 +97,20 @@ public class Astar {
 							v.priority = (double) v.path_cost+v.h_cost;
 
 							pq.add(v.Path);
+							System.out.println("QueueTop: "+pq.peek().peek().label+" :"+pq.peek().peek().priority);
+							System.out.println("");
 						}
 
 					}
+					else
+					{
+						System.out.println("Not considered\n");
+					}
+				}
+				
+				for(LinkedList<Vertex> l:pq){
+					System.out.println(l.peek().label+" :"+l.peek().priority);
+					
 				}
 				
 			}
@@ -106,8 +122,10 @@ public class Astar {
 	
 	boolean itContains(String s, ArrayList<String> list){
 		
-		if(list.contains(s))
-			return true;
+		for(String t:list){
+			if(s.equalsIgnoreCase(t))
+				return true;
+		}
 		
 		return false;
 	}

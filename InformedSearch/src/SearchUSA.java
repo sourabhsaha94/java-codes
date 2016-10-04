@@ -76,8 +76,8 @@ public class SearchUSA {
 		
 		bufferedReader3.close();
 		
-		String start="vancouver";
-		String goal="losAngeles";
+		String start="miami";
+		String goal="vancouver";
 		
 		switch(args[0]){
 		case "astar":

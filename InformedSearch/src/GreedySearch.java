@@ -27,6 +27,8 @@ public class GreedySearch {
 	
 	void executeAlgo(){
 		
+		boolean minFlag=true;
+		
 		ArrayList<Vertex> succList = new ArrayList<Vertex>();
 		
 		calculateHcost();
@@ -38,6 +40,8 @@ public class GreedySearch {
 		
 		while(!pq.isEmpty()){
 			
+			
+			
 			LinkedList<Vertex> temp=pq.poll();	//get top path with minimum cost from queue
 			
 			Vertex curr = temp.peek();	//get path head
@@ -46,7 +50,7 @@ public class GreedySearch {
 			
 			if(curr.label.equalsIgnoreCase(g))	//goal check
 			{
-				System.out.println("goal reached");
+				System.out.println("goal reached in "+curr.path_cost);
 				int count=printPath(gh.getVertexFromLabel(g),0);
 				System.out.println("Visited nodes:" +count);
 				System.out.println("Expanded nodes:" +Visited.size());
@@ -55,17 +59,32 @@ public class GreedySearch {
 			
 			else{
 				
-				
+				minFlag=true;
 				succList = curr.getAdjacentVertexList();	//generate successor list for path head
 			
 				for(Vertex v:succList){
 					
+					minFlag=true;
+					
+					//check if there exists already a path which has lower cost
+					for(LinkedList<Vertex> l:pq){
+						if(v.label.equalsIgnoreCase(l.peek().label)){
+							if((curr.path_cost + v.getEdge(curr).weight+v.h_cost)>l.peek().priority)
+								minFlag=false;	
+						}
+							
+					}
 					
 					
 					//check if node has been visited by a path
 					if(!itContains(v.label,Visited)){
+
 						
+						if (minFlag) {
+							
 							v.Path.add(curr);
+
+							v.path_cost = curr.path_cost + v.getEdge(curr).weight;
 
 							// check if node has been previously expanded by
 							// others
@@ -74,9 +93,10 @@ public class GreedySearch {
 								Expanded.add(v.label);
 							}
 
-							v.priority = v.h_cost;
+							v.priority = (double) v.h_cost;
 
 							pq.add(v.Path);
+						}
 					}
 				}
 				

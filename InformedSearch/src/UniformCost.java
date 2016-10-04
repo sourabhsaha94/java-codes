@@ -63,18 +63,26 @@ public class UniformCost {
 															// list for path
 															// head
 
+				
 				for (Vertex v : succList) {
 
+					
+					minFlag=true;
+					
+					System.out.println(curr.label+" expanding "+v.label+" :"+v.h_cost);
+					//check if there exists already a path which has lower cost
+					for(LinkedList<Vertex> l:pq){
+						if(v.label.equalsIgnoreCase(l.peek().label)){
+							if((curr.path_cost + v.getEdge(curr).weight)>l.peek().priority)
+								minFlag=false;	
+						}
+							
+					}
+					
 					// check if node has been visited by a path
 					if (!itContains(v.label, Visited)) {
 
-						//check if there exists already a path which has lower cost
-						for (LinkedList<Vertex> l : pq) {
-							if (v.label.equalsIgnoreCase(l.peek().label)
-									&& curr.path_cost + v.getEdge(curr).weight > l.peek().path_cost)
-								minFlag = false;
-						}
-
+				
 						if (minFlag) {
 							
 							v.Path.add(curr);
